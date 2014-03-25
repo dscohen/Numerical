@@ -38,7 +38,7 @@ def plu(A):
     # LU decomposition with partial pivoting
     for k in range(n-1):
         # find row index of relative max in column k
-        find = 2*bandwidth
+        find = 2*bandwidth+1
         q = argmax( abs(LU[k:k+find,k]) / s[k:k+find] )
         q = q + k
         
@@ -54,10 +54,10 @@ def plu(A):
         p[q] = tp
 
         # compute corresponding column of L
-        LU[k+1:k+find+1,k] = LU[k+1:k+1+find,k] / LU[k,k]
+        LU[k+1:k+find,k] = LU[k+1:k+find,k] / LU[k,k]
 
         # update submatrix by outer product
-        LU[k+1:k+1+find,k+1:k+1+find] = LU[k+1:k+1+find,k+1:k+1+find] - outer( LU[k+1:k+find,k], LU[k,k+1:k+find] )
+        LU[k+1:k+find,k+1:k+find] = LU[k+1:k+find,k+1:k+find] - outer( LU[k+1:k+find,k], LU[k,k+1:k+find] )
 
     return (p,LU)
 
